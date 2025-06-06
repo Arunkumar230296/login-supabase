@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style1.css" />
+    <title>Signup</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0"></script>
+"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Sign Up</h1>
+      <form id="signup-form">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Password" required />
+
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm password"
+          required
+        />
+
+        <button type="submit">Sign Up</button>
+      </form>
+      <div>
+        <p>
+          Already have an account?
+          <a href="./login.html" style="color: blue">Login</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const supabaseUrl = "https://reghhprfypuygpfylfrs.supabase.co";
+      const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlZ2hocHJmeXB1eWdwZnlsZnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMjcyMjQsImV4cCI6MjA2NDYwMzIyNH0.sLu9hXMzuW3XrUtkv46w8dQp6bOaDBknfJO8k156iXA";
+     
+      const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+      
+
+      const form = document.getElementById("signup-form");
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        console.log("Email from form:", email);
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirm-password").value;
+
+        if (password !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+        });
+
+        if (error) {
+          alert("Error signing up: " + error.message);
+        } else {
+          alert("Sign-up successful! Check your email for confirmation.");
+          form.reset();
+        }
+      });
+    </script>
+  </body>
+</html>

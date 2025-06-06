@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="style1.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0"></script>
+"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Login</h1>
+      <form id="login-form">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+        />
+
+        <button type="submit">Login</button>
+      </form>
+      <div>
+        <p>No account? <a href="./signup.html">Sign up</a></p>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const supabaseUrl = "https://reghhprfypuygpfylfrs.supabase.co";
+        const supabaseKey =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlZ2hocHJmeXB1eWdwZnlsZnJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwMjcyMjQsImV4cCI6MjA2NDYwMzIyNH0.sLu9hXMzuW3XrUtkv46w8dQp6bOaDBknfJO8k156iXA";
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        const loginForm = document.getElementById("login-form");
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          try {
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+              email,
+              password,
+            });
+
+            if (error) {
+              alert("Login error: " + error.message);
+            } else {
+              alert("Login successful!");
+              // Redirect to your protected page after successful login
+                   window.location.href = "https://arunkumar230296.github.io/weather/";
+            }
+          } catch (err) {
+            alert("Unexpected error: " + err.message);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
